@@ -1,0 +1,5 @@
+Warning: The high junction temperature operating condition is not set. Assuming a default value of '85'.
+Warning: The low junction temperature operating condition is not set. Assuming a default value of '0'.
+Warning: Feature LogicLock incremental compilation is not available with your current license
+Warning: Ignored locations or region assignments to the following nodes
+Warning: Found 176 output pins without output pin load capacitance assignment

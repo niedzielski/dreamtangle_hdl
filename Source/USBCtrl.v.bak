@@ -1,0 +1,976 @@
+/*******************************************************************************
+DreamTangle_HDL
+Stephen Niedzielski - sniedzie@digipen.edu
+*******************************************************************************/
+
+`include "Global.h"
+
+
+`ifdef asdkoasdpoaksddas'pdlas'dlpa
+// System wide 1 ms delay.
+
+// Created:   ~Friday, June 1, 2007 [Stephen Niedzielski]
+// Modified:  Wednesday, October 31, 2007 [Stephen Niedzielski]
+module USB
+(
+  input         iClk,
+  input         iDly_,
+  // FIFO lines.
+
+  // ISP1362 lines.
+  input         iClk200,
+  input         iINT2,
+  inout [15:0]  ioD,
+  output        oRESET_,
+  output [1:0]  oA,
+  output        oRD_,
+  output        oWR_,
+  output        oCS_,
+  output        oOTG_DP1,
+  output        oOTG_DM1
+);
+  `include "romUSB.h"
+  `include "ISP1362Ctrl.h"
+  `include "USBCtrl.h"
+
+
+  reg
+  _
+
+  reg [15:0] _ISP_D;
+  initial
+    _ISP_D = 16'h0000;
+  
+  reg
+  _ISP_Rd,
+  _ISP_Cmd,
+  _ISP_Go;
+  initial
+  begin
+    _ISP_Rd = 1'b0;
+    _ISP_Cmd = 1'b0;
+    _ISP_Go = 1'b0;
+  end
+  
+  wire ISP_Done;
+  wire [15:0] ISP_Q;
+
+  reg [6:0] _Cnt;
+
+
+  ISP1362Ctrl
+  ISP1362Ctrl0
+  (
+    // Intermodule lines.
+    .iClk200( iClk200 ),
+    .iRead( _ISP_Rd ),
+    .iCmd( _ISP_Cmd ),
+    .iD( _ISP_D ),
+    .iGo( _ISP_Go ),
+    .oDone( ISP_Done ),
+    .oQ( ISP_Q ),
+
+    // ISP1362 lines.
+    .ioD( ioD ),
+    .oRESET_( oRESET_ ),
+    .oA( oA ),
+    .oRD_( oRD_ ),
+    .oWR_( oWR_ ),
+    .oCS_( oCS_ ),
+    .oOTG_DP1( oOTG_DP1 ),
+    .oOTG_DM1( oOTG_DM1 )
+  );
+
+  always_ff @( posedge Clock )
+  begin
+    // Defaults.
+    _ISP_Go <= 1'b0;
+    _Cnt <= 7'd0;
+
+    priority case( 1'b1 )
+      _GenericTx: // Transceive.
+      begin
+      end
+      _ISR[0]: // Reset.
+      begin
+        // Bus reset condition detected.
+        _Init <= 1'b1;
+        _ISR[0] <= 1'b0;
+      end
+      _Stall:
+      begin
+        // Defaults.
+        _Cnt <= _Cnt + 1'd1;
+
+        // Send stall packet.
+        case( _Cnt )
+          0:
+          begin
+            _Tx <= 1'b1;
+            _Cmd <= 1'b1;
+            
+          end
+          
+        endcase
+      end
+    
+    endcase
+
+
+
+    // Update EP status register.
+    else if( _InterruptRegister[10:8] )
+    begin
+      case( _UpdateEpStatusS )
+        0:
+        begin
+          if( _InterruptRegister[8] )
+          begin
+            // Request to update EP0O status.
+            _C0 <= 1'b1;
+            _CD0 <= `Read_control_OUT_status;
+            _R0 <= 1'b1;
+          end
+          if( _InterruptRegister[9] )
+          begin
+            // Request to update EP0I status.
+            _C1 <= 1'b1;
+            _CD1 <= `Read_control_IN_status;
+            _R1 <= 1'b1;
+          end
+          
+          // Go to the next state.
+          _UpdateEpStatusS <= _UpdateEpStatusS + 1;
+        end
+        1:
+        begin
+          if( _InterruptRegister[8] )
+          begin
+            // Update EP status registers.
+            _EP0OB_Status <= _RD0;
+
+          end
+          if( _InterruptRegister[9] )
+          begin
+            // Update EP status registers.
+            _EP0IB_Status <= _RD1;
+
+          end
+
+          // Go to the next state.
+          _UpdateEpStatusS <= _UpdateEpStatusS + 1;
+        end
+        2:
+        begin
+          if( _InterruptRegister[10] )
+          begin
+            // Request to update EP0I status.
+            _C0 <= 1'b1;
+            _CD0 <= `Read_endpoint_1_status;
+            _R0 <= 1'b1;
+          end
+
+          // Go to the next state.
+          _UpdateEpStatusS <= _UpdateEpStatusS + 1;
+        end
+        3:
+        begin
+          if( _InterruptRegister[10] )
+          begin
+            // Update EP status registers.
+            _EP1IB_Status <= _RD0;
+
+
+          end
+            // Drop out of this state machine.
+            _InterruptRegister[8] <= 0;
+
+            // Drop out of this state machine.
+            _InterruptRegister[9] <= 0;
+
+            // Drop out of this state machine.
+            _InterruptRegister[10] <= 0;
+
+          // Reset this state machine.
+          _UpdateEpStatusS <= 0;
+        end
+      endcase
+    end // else if( _InterruptRegister[9:8] ).
+
+    // Send device descriptor.
+    else if( _GetDevice )
+    begin
+      case( _GetDeviceS )
+        0:
+        begin
+          // Send ACK.
+          _C0 <= 1'b1;
+          _CD0 <= `Acknowledge_set_up;
+
+          // Clear the EP0O buffer.
+          _C1 <= 1'b1;
+          _CD1 <= `Clear_control_OUT_buffer;
+          
+          // Go to the next state.
+          _GetDeviceS <= _GetDeviceS + 1;
+        end
+        1:
+        begin
+          // Request to write to EP0I.
+          _C0 <= 1'b1;
+          _CD0 <= `Write_control_IN_buffer;
+          
+          // Write the length of the next packet.
+          _W0 <= 1'b1;
+          _WD0 <= 16'd18;
+
+          // Go to the next state.
+          _GetDeviceS <= _GetDeviceS + 1;
+        end
+        02,03,04,05,06,
+        07,08,09,10:
+        begin
+          // Write the packet.
+          _W0 <= 1'b1;
+          _WD0 <= Device0[ ( 10 - _GetDeviceS ) * 16 +: 16];
+
+          // Go to the next state.
+          _GetDeviceS <= _GetDeviceS + 1;
+        end
+        11:
+        begin
+         // Send the packet.
+          _C0 <= 1'b1;
+          _CD0 <= `Validate_control_IN_buffer;
+
+          // Reset this state machine.
+          _GetDeviceS <= 0;
+         
+          // Drop out of this state machine.
+          _GetDevice <= 1'b0;
+        end
+      endcase
+    end // send device descriptor.
+
+    // Set address.
+    else if( _SetAddress )
+    begin
+      case( _SetAddressS )
+        0:
+        begin
+          // Send an empty packet.
+          _Empty <= 1'b1;
+
+          // Go to the next state.
+          _SetAddressS <= _SetAddressS + 1;
+        end
+        1:
+        begin
+          // Update the device address.
+          _C1 <= 1'b1;
+          _CD1 <= `Write_device_address;
+          _W1 <= 1'b1;
+          _WD1 <= {
+                    1'b1,        // DEVEN
+                    _RD0[6:0]    // DEVADR
+                  };
+
+          // Reset this state machine.
+          _SetAddressS <= 0;
+          
+          // Drop out of this state machine.
+          _SetAddress <= 1'b0;
+        end
+      endcase
+    end // set address.
+
+    // Send configuration.
+    else if( _GetConfig )
+    begin
+      case( _GetConfigS )
+        0:
+        begin
+          // Skip 2 bytes.
+          _R0 <= 1'b1;
+
+          // Get the requested length.
+          _R1 <= 1'b1;
+
+          // Go to the next state.
+          _GetConfigS <= _GetConfigS + 1;
+        end
+        1:
+        begin
+          // Send ACK.
+          _C0 <= 1'b1;
+          _CD0 <= `Acknowledge_set_up;
+
+          // Clear the EP0O buffer.
+          _C1 <= 1'b1;
+          _CD1 <= `Clear_control_OUT_buffer;
+
+          // Go to the next state.
+          _GetConfigS <= _GetConfigS + 1;
+        end
+        2:
+        begin
+          _C0 <= 1'b1;
+          _CD0 <= `Write_control_IN_buffer;
+
+          // Write the length of the packet.
+          _W0 <= 1'b1;
+          if( _RD1[7:0] <= 34 )
+          begin
+            _WD0 <= {8'h00, _RD1[7:0]};
+          end
+          else
+          begin
+            _WD0 <= 16'd34;
+          end
+
+          // Go to the next state.
+          _GetConfigS <= _GetConfigS + 1;
+        end
+        03,04,05,06,07,
+        08,09,10,11,12,
+        13,14,15,16,17,
+        18,19:
+        begin
+          // Write the packet.
+          _W0 <= 1'b1;
+          _WD0 <= Config1[ ( 19 - _GetConfigS ) * 16 +: 16];
+
+          // Go to the next state.
+          _GetConfigS <= _GetConfigS + 1;
+        end
+        20:
+        begin
+          // Send packet.
+          _C0 <= 1'b1;
+          _CD0 <= `Validate_control_IN_buffer;
+
+          // Reset this state machine.
+          _GetConfigS <= 0;
+          
+          // Drop out of this state machine.
+          _GetConfig <= 1'b0;
+        end
+      endcase
+    end
+
+    // Send report descriptor.
+    else if( _GetReport )
+    begin
+      case( _GetReportS )
+        0:
+        begin
+          // Send ACK.
+          _C0 <= 1'b1;
+          _CD0 <= `Acknowledge_set_up;
+
+          // Clear the EP0O buffer.
+          _C1 <= 1'b1;
+          _CD1 <= `Clear_control_OUT_buffer;
+
+          // Go to the next state.
+          _GetReportS <= _GetReportS + 1;
+        end
+        1:
+        begin
+          _C0 <= 1'b1;
+          _CD0 <= `Write_control_IN_buffer;
+
+          _W0 <= 1'b1;
+          _WD0 <= 16'h0015;
+
+          // Go to the next state.
+          _GetReportS <= _GetReportS + 1;
+        end
+        02,03,04,05,06,
+        07,08,09,10,11,
+        12:
+        begin
+          // Write the packet.
+          _W0 <= 1'b1;
+          _WD0 <= Report0[ ( 12 - _GetReportS ) * 16 +: 16];
+
+          // Go to the next state.
+          _GetReportS <= _GetReportS + 1;
+        end
+        13:
+        begin
+          _C0 <= 1'b1;
+          _CD0 <= `Validate_control_IN_buffer;
+
+          _GetReportS <= 0;
+
+          _GetReport <= 1'b0;
+        end
+
+      endcase
+    end
+
+  localparam romString0 =
+  {
+ // Cmd,  Rd,   Data
+    1'b1, 1'b0, 8'h00, `Acknowledge_set_up,
+    1'b1, 1'b0, `Clear_control_OUT_buffer,
+    1'b1, 1'b0, `Write_control_IN_buffer,
+    1'b0, 1'b0, 8'h00, 16'd4,
+    1'b0, 1'b0, 8'h00, { 8'h03, 8'h04 },
+    1'b0, 1'b0, 8'h00, 16'h0409,
+    1'b0, 1'b0, 8'h00, { 8'h03, 8'h04 },
+    1'b0, 1'b0, 8'h00, { 8'h03, 8'h04 },
+    1'b0, 1'b0, 8'h00, { 8'h03, 8'h04 },
+
+    1'b1, 1'b1, 16'hxxxx
+  };
+
+        1:
+        begin
+          case( _RD0[7:0] )
+            0:
+            begin
+              _W0 <= 1'b1;
+              _WD0 <= 16'd4;
+              _W1 <= 1'b1;
+              _WD1 <= ;
+
+              _GetStringS <= 2;
+            end
+            1:
+            begin
+              _W0 <= 1'b1;
+              _WD0 <= 16'h0040;
+              _W1 <= 1'b1;
+              _WD1 <= { 8'h03, 8'h40 };
+
+              _GetStringS <= 3;
+            end
+            2:
+            begin
+              _W0 <= 1'b1;
+              _WD0 <= 16'h0018;
+              _W1 <= 1'b1;
+              _WD1 <= { 8'h03, 8'h0018 };
+
+              _GetStringS <= 19;
+            end
+          endcase
+        end
+
+        3:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "D";
+
+          _W1 <= 1'b1;
+          _WD1 <= "i";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        4:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "g";
+
+          _W1 <= 1'b1;
+          _WD1 <= "i";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        5:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "P";
+
+          _W1 <= 1'b1;
+          _WD1 <= "e";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        6:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "n";
+
+          _W1 <= 1'b1;
+          _WD1 <= " ";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        7:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "I";
+
+          _W1 <= 1'b1;
+          _WD1 <= "n";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        8:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "s";
+
+          _W1 <= 1'b1;
+          _WD1 <= "t";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        9:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "i";
+
+          _W1 <= 1'b1;
+          _WD1 <= "t";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        10:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "u";
+
+          _W1 <= 1'b1;
+          _WD1 <= "t";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        11:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "e";
+
+          _W1 <= 1'b1;
+          _WD1 <= " ";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        12:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "o";
+
+          _W1 <= 1'b1;
+          _WD1 <= "f";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        13:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= " ";
+
+          _W1 <= 1'b1;
+          _WD1 <= "T";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        14:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "e";
+
+          _W1 <= 1'b1;
+          _WD1 <= "c";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        15:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "h";
+
+          _W1 <= 1'b1;
+          _WD1 <= "n";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        16:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "o";
+
+          _W1 <= 1'b1;
+          _WD1 <= "l";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        17:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "o";
+
+          _W1 <= 1'b1;
+          _WD1 <= "g";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        18:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "y";
+
+          // Go to the next state.
+          _GetStringS <= 25;
+        end
+
+        19:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "D";
+
+          _W1 <= 1'b1;
+          _WD1 <= "r";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        20:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "e";
+
+          _W1 <= 1'b1;
+          _WD1 <= "a";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        21:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "m";
+
+          _W1 <= 1'b1;
+          _WD1 <= "T";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        22:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "a";
+
+          _W1 <= 1'b1;
+          _WD1 <= "n";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        23:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "g";
+
+          _W1 <= 1'b1;
+          _WD1 <= "l";
+
+          // Go to the next state.
+          _GetStringS <= _GetStringS + 1;
+        end
+        24:
+        begin
+          _W0 <= 1'b1;
+          _WD0 <= "e";
+
+          // Go to the next state.
+          _GetStringS <= 25;
+        end
+
+        25:
+        begin
+          // Send packet.
+          _C0 <= 1'b1;
+          _CD0 <= `Validate_control_IN_buffer;
+
+          // Reset this state machine.
+          _GetStringS <= 0;
+          
+          // Drop out of this state machine.
+          _GetString <= 1'b0;
+        end
+      endcase
+    end
+
+  localparam romEmpty =
+  {
+ // Cmd,  Rd,   Data
+    1'b1, 1'b0, 8'h00, `Acknowledge_set_up,
+    1'b1, 1'b0, 8'h00, `Clear_control_OUT_buffer,
+    1'b1, 1'b0, 8'h00, `Write_control_OUT_configuration,
+    1'b0, 1'b0, 8'h00,  {
+                          1'b1,   // FIFOEN
+                          1'b0,   // EPDIR
+                          1'b0,   // DBLBUF
+                          1'b0,   // FFOISO
+                          4'b0011 // FFOSZ
+                        },
+    1'b1, 1'b0, 8'h00, `Write_control_IN_configuration,
+    1'b0, 1'b0, 8'h00,  {
+                          1'b1,   // FIFOEN
+                          1'b1,   // EPDIR
+                          1'b0,   // DBLBUF
+                          1'b0,   // FFOISO
+                          4'b0011 // FFOSZ
+                        },
+    1'b1, 1'b0, 8'h00, `Write_endpoint_1_configuration,
+    1'b0, 1'b0, 8'h00,  {
+                          1'b1,   // FIFOEN
+                          1'b1,   // EPDIR
+                          1'b0,   // DBLBUF
+                          1'b0,   // FFOISO
+                          4'b0011 // FFOSZ
+                        },
+
+    1'b1, 1'b0, 8'h00, `Write_control_IN_configuration,
+    1'b0, 1'b0, 8'h00,  {
+                          1'b1,   // FIFOEN
+                          1'b1,   // EPDIR
+                          1'b0,   // DBLBUF
+                          1'b0,   // FFOISO
+                          4'b0011 // FFOSZ
+                        },
+    1'b1, 1'b0, 8'h00, `Write_control_IN_configuration,
+    1'b0, 1'b0, 8'h00,  {
+                          1'b1,   // FIFOEN
+                          1'b1,   // EPDIR
+                          1'b0,   // DBLBUF
+                          1'b0,   // FFOISO
+                          4'b0011 // FFOSZ
+                        },
+
+
+
+
+
+    1'b1, 1'b1, 16'hxxxx
+  };
+
+
+          // Send an empty packet.
+          _C0 <= 1'b1;
+          _CD0 <= `Write_control_IN_buffer;
+          _W0 <= 1'b1;
+          _WD0 <= 16'h0000;
+          _C1 <= 1'b1;
+          _CD1 <= `Validate_control_IN_buffer;
+
+          // Reset this state machine.
+          _SetConfigS <= 0;
+
+          // Drop out of this state machine.
+          _SetConfig <= 1'b0;
+        end
+      endcase
+    end
+
+    else if( _OK && !_Setup && (FDW || _FDW) )
+    begin
+      case( _FDWS )
+        0:
+        begin
+          // Stay in this state machine.
+          _FDW <= 1;
+
+          _C0  <= 1'b1;
+          _CD0 <= `Write_endpoint_1_buffer;
+
+          _W0  <= 1'b1;
+          _WD0 <= 64;
+
+          _FDWS <= _FDWS + 1;
+        end
+        default:
+        begin
+          if( FDW )
+          begin
+            _W0 <= 1'b1;
+            _WD0 <= { FD[7:0], FD[15:8] };
+
+            _W1 <= 1'b1;
+            _WD1 <= {FD[23:16], FD[31:24]};
+
+            // Done with data data.
+            _FR <= 1'b1;
+          end
+          else
+          begin
+            _W0 <= 1'b1;
+            _WD0 <= 16'h0000;
+
+            _W1 <= 1'b1;
+            _WD1 <= 16'h0000;
+
+            _FR <= 1'b0;
+          end
+            _FDWS <= _FDWS + 1;
+        end
+        33:
+        begin
+          _C0 <= 1'b1;
+          _CD0 <= `Validate_endpoint_1_buffer;
+
+          _FR <= 1'b0;
+
+          _FDWS <= 0;
+          _FDW <= 0;
+        end
+      endcase
+    end
+
+    // EP0O setup packet detected.
+    else if
+    (
+      !_EP0OB_Status[3] && // OVERWRITE
+      (
+        _EP0OB_Status[5] || _EP0OB_Status[6] ||
+        _EP0OB_Status[2] || _Setup
+      )
+    )
+    begin
+      case( _SetupS )
+        0:
+        begin
+          _Setup <= 1;
+          // Request to read EP0O buffer.
+          _C0 <= 1'b1;
+          _CD0 <= `Read_control_OUT_buffer;
+          
+          // Read first four bytes.
+          _R0 <= 1'b1;
+          _R1 <= 1'b1;
+
+          // Go to the next state.
+          _SetupS <= _SetupS + 1;
+        end
+        1:
+        begin
+          // Read first four bytes.
+          _R0 <= 1'b1;
+
+          // Go to the next state.
+          _SetupS <= _SetupS + 1;
+        end
+        2:
+        begin
+          // Route response based on third and fourth bytes.
+          case( _RD1 )
+            16'h0680:
+            begin
+              case( _RD0[15:8] )
+                8'h01:
+                begin
+                  // Get descriptor: device.
+                  _GetDevice <= 1'b1;
+                end
+                8'h02:
+                begin
+                  // Get descriptor: configuration.
+                  _GetConfig <= 1'b1;  
+                end
+                8'h03:
+                begin
+                  // Get descriptor: string.
+                  _GetString <= 1'b1;  
+                end
+                default:
+                begin
+                  // Not supported.
+                  _Stall <= 1'b1;
+                end
+              endcase
+            end
+            16'h0681:
+            begin
+              // Get descriptor: report.
+              _GetReport <= 1'b1;
+
+              _OK <= 1'b1;
+            end
+            16'h0900:
+            begin
+              // Set configuration.
+              _SetConfig <= 1'b1;
+            end
+            16'h0500:
+            begin
+              // Set address.
+              _SetAddress <= 1'b1;
+            end
+            default:
+            begin
+              // Not supported.
+              _Stall <= 1'b1;
+            end
+          endcase
+
+          _SetupS <= 0;
+
+          // Reset this state machine
+          _Setup <= 0;
+          _EP0OB_Status[2] <= 1'b0;
+        end
+      endcase
+    end // EP0O setup packet detected.
+
+    // Update _InterruptRegister.
+    else if( !_Setup && (INT2 || _INT2) )
+    begin
+      case( _INT2S )
+        0:
+        begin
+          // Keep in this state machine until both reads have been performed.
+          _INT2 <= 1;
+        
+          // Send interrupt register read request.
+          _C0 <= 1'b1;
+          _CD0 <= `Read_DcInterrupt_register;
+
+          // Get the low data.
+          _R0 <= 1'b1;
+          
+          // Get the high data.
+          _R1 <= 1'b1;
+
+          // Go to the next state.
+          _INT2S <= _INT2S + 1;
+        end
+        1:
+        begin
+          // Store the data just read.
+          _InterruptRegister[15:0]  <= _RD0;
+          _InterruptRegister[23:16] <= _RD1[7:0];
+
+          // Reset this state machine.
+          _INT2S <= 0;
+          
+          // Drop out of this state machine.
+          _INT2 <= 1'b0;
+        end
+      endcase
+    end // else if( INT2 || _INT2 ).
+
+  end // always_ff @( posedge Clock ).
+
+endmodule
+`endif

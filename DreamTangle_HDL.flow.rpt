@@ -1,0 +1,123 @@
+Flow report for DreamTangle_HDL
+Wed Feb 06 20:07:14 2008
+Quartus II Version 7.2 Build 151 09/26/2007 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow Log
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++------------------------------------------------------------------------------+
+; Flow Summary                                                                 ;
++------------------------------------+-----------------------------------------+
+; Flow Status                        ; Flow Failed - Wed Feb 06 20:07:13 2008  ;
+; Quartus II Version                 ; 7.2 Build 151 09/26/2007 SJ Web Edition ;
+; Revision Name                      ; DreamTangle_HDL                         ;
+; Top-level Entity Name              ; DreamTangle_HDL                         ;
+; Family                             ; Cyclone II                              ;
+; Device                             ; EP2C35F672C6                            ;
+; Timing Models                      ; Final                                   ;
+; Met timing requirements            ; No                                      ;
+; Total logic elements               ; 2,204                                   ;
+;     Total combinational functions  ; 2,204                                   ;
+;     Dedicated logic registers      ; 1,327                                   ;
+; Total registers                    ; 1327                                    ;
+; Total pins                         ; 215 / 475 ( 45 % )                      ;
+; Total virtual pins                 ; 0                                       ;
+; Total memory bits                  ; 119,744 / 483,840 ( 25 % )              ;
+; Embedded Multiplier 9-bit elements ; 18 / 70 ( 26 % )                        ;
+; Total PLLs                         ; 2 / 4 ( 50 % )                          ;
++------------------------------------+-----------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 02/06/2008 20:04:25 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; DreamTangle_HDL     ;
++-------------------+---------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                                                                                                                                                                                 ;
++---------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------+------------+
+; Assignment Name                                   ; Value                                                                                                                                                                                                                        ; Default Value      ; Entity Name ; Section Id ;
++---------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------+------------+
+; ADV_NETLIST_OPT_METASTABLE_REGS                   ; 3                                                                                                                                                                                                                            ; 2                  ; --          ; --         ;
+; ADV_NETLIST_OPT_SYNTH_GATE_RETIME                 ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP               ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; CYCLONEII_OPTIMIZATION_TECHNIQUE                  ; Speed                                                                                                                                                                                                                        ; Balanced           ; --          ; --         ;
+; ENABLE_DA_RULE                                    ; C101, C102, C103, C104, C105, C106, R101, R102, R103, R104, R105, T101, T102, A101, A102, A103, A104, A105, A106, A107, A108, A109, A110, S101, S102, S103, S104, D101, D102, D103, H101, H102, M101, M102, M103, M104, M105 ; --                 ; --          ; --         ;
+; MUX_RESTRUCTURE                                   ; Off                                                                                                                                                                                                                          ; Auto               ; --          ; --         ;
+; OPTIMIZE_FAST_CORNER_TIMING                       ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; OPTIMIZE_POWER_DURING_SYNTHESIS                   ; Off                                                                                                                                                                                                                          ; Normal compilation ; --          ; --         ;
+; PARTITION_COLOR                                   ; 2147039                                                                                                                                                                                                                      ; --                 ; --          ; Top        ;
+; PARTITION_NETLIST_TYPE                            ; SOURCE                                                                                                                                                                                                                       ; --                 ; --          ; Top        ;
+; PHYSICAL_SYNTHESIS_ASYNCHRONOUS_SIGNAL_PIPELINING ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; PHYSICAL_SYNTHESIS_MAP_LOGIC_TO_MEMORY_FOR_AREA   ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION           ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; POWER_BOARD_THERMAL_MODEL                         ; None (CONSERVATIVE)                                                                                                                                                                                                          ; --                 ; --          ; --         ;
+; POWER_PRESET_COOLING_SOLUTION                     ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                                                                                                                                                                                        ; --                 ; --          ; --         ;
+; REMOVE_REDUNDANT_LOGIC_CELLS                      ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; ROUTER_TIMING_OPTIMIZATION_LEVEL                  ; MAXIMUM                                                                                                                                                                                                                      ; Normal             ; --          ; --         ;
+; SMART_RECOMPILE                                   ; On                                                                                                                                                                                                                           ; Off                ; --          ; --         ;
+; USER_LIBRARIES                                    ; source/video;lib                                                                                                                                                                                                             ; --                 ; --          ; --         ;
+; USE_GENERATED_PHYSICAL_CONSTRAINTS                ; Off                                                                                                                                                                                                                          ; --                 ; --          ; eda_palace ;
+; VERILOG_INPUT_VERSION                             ; SystemVerilog_2005                                                                                                                                                                                                           ; Verilog_2001       ; --          ; --         ;
+; VERILOG_SHOW_LMF_MAPPING_MESSAGES                 ; Off                                                                                                                                                                                                                          ; --                 ; --          ; --         ;
++---------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------+------------+
+
+
++------------------------------------------------------------------+
+; Flow Elapsed Time                                                ;
++-------------------------+--------------+-------------------------+
+; Module Name             ; Elapsed Time ; Average Processors Used ;
++-------------------------+--------------+-------------------------+
+; Analysis & Synthesis    ; 00:00:50     ; 1.0                     ;
+; Fitter                  ; 00:01:25     ; 1.0                     ;
+; Assembler               ; 00:00:13     ; 1.0                     ;
+; Classic Timing Analyzer ; 00:00:03     ; 1.0                     ;
+; Total                   ; 00:02:31     ; --                      ;
++-------------------------+--------------+-------------------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off DreamTangle_HDL -c DreamTangle_HDL
+quartus_fit --read_settings_files=on --write_settings_files=off DreamTangle_HDL -c DreamTangle_HDL
+quartus_asm --read_settings_files=off --write_settings_files=off DreamTangle_HDL -c DreamTangle_HDL
+quartus_tan --read_settings_files=off --write_settings_files=off DreamTangle_HDL -c DreamTangle_HDL --timing_analysis_only
+
+
+

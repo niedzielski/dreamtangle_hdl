@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="DreamTangle_HDL">
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|DIV:u5|lpm_divide:lpm_divide_component" CBX_FILE_NAME="lpm_divide_h6t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|I2C_AV_Config:u1|altsyncram:Ram0_rtl_0" CBX_FILE_NAME="altsyncram_i801.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Line_Buffer:u10|altshift_taps:altshift_taps_component" CBX_FILE_NAME="shift_taps_rin.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Sdram_Control_4Port:u6|Sdram_WR_FIFO:write_fifo1|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_hlk1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|YCbCr2RGB:u8|MAC_3:u2|altmult_add:ALTMULT_ADD_component" CBX_FILE_NAME="mult_add_4f74.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Line_Buffer:u11|altshift_taps:altshift_taps_component" CBX_FILE_NAME="shift_taps_rin.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Sdram_Control_4Port:u6|Sdram_WR_FIFO:write_fifo2|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_hlk1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|lpm_divide:Div0" CBX_FILE_NAME="lpm_divide_eem.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Sdram_Control_4Port:u6|Sdram_RD_FIFO:read_fifo1|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_hlk1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|YCbCr2RGB:u8|MAC_3:u0|altmult_add:ALTMULT_ADD_component" CBX_FILE_NAME="mult_add_4f74.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|USB_FIFO:USB_FIFO0|scfifo:scfifo_component" CBX_FILE_NAME="scfifo_kh31.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|Sdram_Control_4Port:u6|Sdram_RD_FIFO:read_fifo2|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_hlk1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DreamTangle_HDL|Video:Video0|YCbCr2RGB:u8|MAC_3:u1|altmult_add:ALTMULT_ADD_component" CBX_FILE_NAME="mult_add_4f74.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

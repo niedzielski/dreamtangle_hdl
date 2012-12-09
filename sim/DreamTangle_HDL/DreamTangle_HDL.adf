@@ -1,0 +1,105 @@
+[Project]
+Current Flow=Generic
+VCS=0
+version=1
+Current Config=compile
+
+[Configurations]
+compile=DreamTangle_HDL
+
+[Library]
+DreamTangle_HDL=.\DreamTangle_HDL.LIB
+
+[$LibMap$]
+DreamTangle_HDL=.
+Active_lib=
+xilinxun=
+UnlinkedDesignLibrary=
+DESIGNS=
+
+[Settings]
+FLOW_TYPE=HDL
+LANGUAGE=VERILOG
+REFRESH_FLOW=1
+FLOWTOOLS=NONE
+VerilogDirsChanged=1
+FAMILY=Altera CycloneII
+
+[HierarchyViewer]
+SortInfo=u
+HierarchyInformation=
+ShowHide=ShowTopLevel
+Selected=
+
+[LocalVerilogSets]
+Strict=0
+Strict2001=0
+SystemVerilog3=1
+WarningPrnLevel=1
+ErrorOutputLimit=0
+OptimizationLevel=2
+EnableDebug=1
+StrictLRMMode=0
+ProtectLevel=0
+AdditionalOptions=
+ForceCellDefine=0
+VerilogCompOff=0
+GenMultiplatformLib=0
+SourceFileExt=.v;.h;
+IncrementalCompilation=0
+IgnoreLineNumbers=0
+EnableExpressionCoverage=0
+
+[DefineMacro]
+Global=
+
+[HCSettings]
+MODELNAME=
+HANDELC_SIMULATOR=
+
+[LocalVerilogDirs]
+Count=2
+IncludeDir0=C:\user\DreamTangle\DreamTangle_HDL\Lib
+IncludeDir1=C:\user\DreamTangle\DreamTangle_HDL\Source\Video
+
+[Verilog Library]
+ovi_CycloneII=
+ovi_lpm=
+
+[VerilogSourceLibDirs]
+SourceLibDir0=C:\user\DreamTangle\DreamTangle_HDL\Lib
+SourceLibDir1=C:\user\DreamTangle\DreamTangle_HDL\Source\Video
+Count=2
+
+[Files]
+/wfDreamTangle_HDL.awf=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\SSHLEDMDCtrl.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\tbClk.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\tbDreamTangle_HDL.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\USBCtrl.h=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\USBCtrl.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\Debounce.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\DreamTangle_HDL.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\Global.h=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\ISP1362Ctrl.h=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\ISP1362Ctrl.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\romUSB.h=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\Video\Video.v=-1
+/C:\user\DreamTangle\DreamTangle_HDL\Source\POR_Dly.v=-1
+
+[Files.Data]
+.\src\wfDreamTangle_HDL.awf=Waveform File
+C:\user\DreamTangle\DreamTangle_HDL\Source\SSHLEDMDCtrl.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\tbClk.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\tbDreamTangle_HDL.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\USBCtrl.h=C++ Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\USBCtrl.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\Debounce.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\DreamTangle_HDL.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\Global.h=C++ Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\ISP1362Ctrl.h=C++ Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\ISP1362Ctrl.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\romUSB.h=C++ Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\Video\Video.v=Verilog Source Code
+C:\user\DreamTangle\DreamTangle_HDL\Source\POR_Dly.v=Verilog Source Code
+

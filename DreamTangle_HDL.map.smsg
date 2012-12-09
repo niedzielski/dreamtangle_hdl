@@ -1,0 +1,20 @@
+Warning (10273): Verilog HDL warning at ISP1362Ctrl.v(83): extended using "x" or "z"
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(378): truncated value with size 32 to match size of target (10)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(421): truncated value with size 32 to match size of target (23)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(423): truncated value with size 32 to match size of target (23)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(424): truncated value with size 32 to match size of target (23)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(425): truncated value with size 32 to match size of target (23)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(426): truncated value with size 32 to match size of target (23)
+Warning (10230): Verilog HDL assignment warning at Sdram_Control_4Port.v(427): truncated value with size 32 to match size of target (23)
+Warning (10240): Verilog HDL Always Construct warning at Sdram_Control_4Port.v(416): inferring latch(es) for variable "rWR1_MAX_ADDR", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at Sdram_Control_4Port.v(416): inferring latch(es) for variable "rWR2_MAX_ADDR", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at Sdram_Control_4Port.v(416): inferring latch(es) for variable "rRD1_MAX_ADDR", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at Sdram_Control_4Port.v(416): inferring latch(es) for variable "rRD2_MAX_ADDR", which holds its previous value in one or more paths through the always construct
+Warning (10230): Verilog HDL assignment warning at control_interface.v(120): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at control_interface.v(125): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at control_interface.v(150): truncated value with size 32 to match size of target (16)
+Warning (10240): Verilog HDL Always Construct warning at command.v(239): inferring latch(es) for variable "oe_shift", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at command.v(239): inferring latch(es) for variable "oe1", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at command.v(239): inferring latch(es) for variable "oe2", which holds its previous value in one or more paths through the always construct
+Warning (10230): Verilog HDL assignment warning at sdr_data_path.v(26): truncated value with size 32 to match size of target (2)
+Warning: Output pins are stuck at VCC or GND

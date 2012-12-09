@@ -1,0 +1,1 @@
+-work DreamTangle_HDL -lc c:/user/DreamTangle/DreamTangle_HDL/sim/library.cfg -fl c:/user/DreamTangle/DreamTangle_HDL/sim/DreamTangle_HDL/projlib.cfg -o c:/user/DreamTangle/DreamTangle_HDL/sim/DreamTangle_HDL/compile -l "DreamTangle_HDL" +libext+.v+.h  -dbg

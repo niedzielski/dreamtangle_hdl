@@ -1,0 +1,12 @@
+[Version]
+Version=7.2
+[Designs]
+dreamtangle_hdl=.\DreamTangle_HDL\DreamTangle_HDL.adf
+[Browser]
+sort=order
+mode=asc
+[Order]
+order=1
+macro=
+[Expand]
+dreamtangle_hdl=1

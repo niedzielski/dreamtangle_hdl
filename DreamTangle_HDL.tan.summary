@@ -1,0 +1,176 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.886 ns
+From           : iUSB_INT2
+To             : USB:USB0|_ISP_D[3]
+From Clock     : --
+To Clock       : iClk50
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 13.000 ns
+From           : Video:Video0|I2C_AV_Config:u1|I2C_Controller:u0|SD_COUNTER[1]
+To             : oI2C_SCLK
+From Clock     : iClk50
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case tpd
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.056 ns
+From           : iButton_[0]
+To             : oTD_RESET
+From Clock     : --
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : 0.209 ns
+From           : iSwitch[9]
+To             : _FIFO_D[14]~1101
+From Clock     : --
+To Clock       : iClk27
+Failed Paths   : 0
+
+Type           : Clock Setup: 'PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk0'
+Slack          : -0.383 ns
+Required Time  : 100.00 MHz ( period = 10.000 ns )
+Actual Time    : N/A
+From           : USB:USB0|ISP1362Ctrl:ISP1362Ctrl0|_Q[2]
+To             : USB:USB0|_ISP_D[2]
+From Clock     : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1
+To Clock       : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk0
+Failed Paths   : 3
+
+Type           : Clock Setup: 'PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1'
+Slack          : 0.646 ns
+Required Time  : 200.00 MHz ( period = 5.000 ns )
+Actual Time    : 229.67 MHz ( period = 4.354 ns )
+From           : USB:USB0|ISP1362Ctrl:ISP1362Ctrl0|_S[17]~_Duplicate_1523
+To             : USB:USB0|ISP1362Ctrl:ISP1362Ctrl0|_Done
+From Clock     : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1
+To Clock       : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1
+Failed Paths   : 0
+
+Type           : Clock Setup: 'Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0'
+Slack          : 3.109 ns
+Required Time  : 108.00 MHz ( period = 9.259 ns )
+Actual Time    : 162.60 MHz ( period = 6.150 ns )
+From           : Video:Video0|Sdram_Control_4Port:u6|Sdram_RD_FIFO:read_fifo2|dcfifo:dcfifo_component|dcfifo_hlk1:auto_generated|dffpipe_oe9:ws_bwp|dffe6a[0]
+To             : Video:Video0|Sdram_Control_4Port:u6|mADDR[18]
+From Clock     : Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0
+To Clock       : Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Setup: 'iClk27'
+Slack          : 7.007 ns
+Required Time  : 27.00 MHz ( period = 37.037 ns )
+Actual Time    : 43.43 MHz ( period = 23.024 ns )
+From           : Video:Video0|VGA_Ctrl:u9|V_Cont[5]
+To             : Video:Video0|YUV422_to_444:u7|mCr[7]
+From Clock     : iClk27
+To Clock       : iClk27
+Failed Paths   : 0
+
+Type           : Clock Setup: 'iClk50'
+Slack          : 13.269 ns
+Required Time  : 50.00 MHz ( period = 20.000 ns )
+Actual Time    : 148.57 MHz ( period = 6.731 ns )
+From           : Video:Video0|I2C_AV_Config:u1|mI2C_CLK_DIV[2]
+To             : Video:Video0|I2C_AV_Config:u1|mI2C_CTRL_CLK
+From Clock     : iClk50
+To Clock       : iClk50
+Failed Paths   : 0
+
+Type           : Clock Setup: 'iTD_CLK'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 69.65 MHz ( period = 14.358 ns )
+From           : Video:Video0|DIV:u5|lpm_divide:lpm_divide_component|lpm_divide_h6t:auto_generated|sign_div_unsign_7li:divider|alt_u_div_bqg:divider|DFFNumerator[4]
+To             : Video:Video0|ITU_656_Decoder:u4|YCbCr[4]
+From Clock     : iTD_CLK
+To Clock       : iTD_CLK
+Failed Paths   : 0
+
+Type           : Clock Setup: 'iTD_HS'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 414.08 MHz ( period = 2.415 ns )
+From           : Video:Video0|TD_Detect:u2|Stable_Cont[4]
+To             : Video:Video0|TD_Detect:u2|TD_Stable
+From Clock     : iTD_HS
+To Clock       : iTD_HS
+Failed Paths   : 0
+
+Type           : Clock Hold: 'Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0'
+Slack          : 0.391 ns
+Required Time  : 108.00 MHz ( period = 9.259 ns )
+Actual Time    : N/A
+From           : Video:Video0|Sdram_Control_4Port:u6|command:command1|rw_flag
+To             : Video:Video0|Sdram_Control_4Port:u6|command:command1|rw_flag
+From Clock     : Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0
+To Clock       : Video:Video0|Sdram_Control_4Port:u6|Sdram_PLL:sdram_pll1|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Hold: 'PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk0'
+Slack          : 0.391 ns
+Required Time  : 100.00 MHz ( period = 10.000 ns )
+Actual Time    : N/A
+From           : USB_FIFO:USB_FIFO0|scfifo:scfifo_component|scfifo_kh31:auto_generated|a_dpfifo_nn31:dpfifo|full_dff
+To             : USB_FIFO:USB_FIFO0|scfifo:scfifo_component|scfifo_kh31:auto_generated|a_dpfifo_nn31:dpfifo|full_dff
+From Clock     : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk0
+To Clock       : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Hold: 'PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1'
+Slack          : 0.391 ns
+Required Time  : 200.00 MHz ( period = 5.000 ns )
+Actual Time    : N/A
+From           : USB:USB0|ISP1362Ctrl:ISP1362Ctrl0|_CS_
+To             : USB:USB0|ISP1362Ctrl:ISP1362Ctrl0|_CS_
+From Clock     : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1
+To Clock       : PLL_Sys:PLL_Sys0|altpll:altpll_component|_clk1
+Failed Paths   : 0
+
+Type           : Clock Hold: 'iClk27'
+Slack          : 0.391 ns
+Required Time  : 27.00 MHz ( period = 37.037 ns )
+Actual Time    : N/A
+From           : Video:Video0|VGA_Ctrl:u9|oVGA_VS
+To             : Video:Video0|VGA_Ctrl:u9|oVGA_VS
+From Clock     : iClk27
+To Clock       : iClk27
+Failed Paths   : 0
+
+Type           : Clock Hold: 'iClk50'
+Slack          : 0.391 ns
+Required Time  : 50.00 MHz ( period = 20.000 ns )
+Actual Time    : N/A
+From           : Video:Video0|I2C_AV_Config:u1|I2C_Controller:u0|SCLK
+To             : Video:Video0|I2C_AV_Config:u1|I2C_Controller:u0|SCLK
+From Clock     : iClk50
+To Clock       : iClk50
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 3
+
+--------------------------------------------------------------------------------------
+

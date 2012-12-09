@@ -1,0 +1,17 @@
+module Find
+(
+  input iClk27,
+  output oFound,
+  input [8:0] iRGB,
+  output [8:0] oA,
+  output [8:0] oB,
+  output [8:0] oC,
+  output [8:0] oD,
+  output [8:0] oE,
+  output [8:0] oF,
+  output [8:0] oG,
+  output [8:0] oH,
+  output [8:0] oI
+);
+
+endmodule

@@ -1,0 +1,74 @@
+MESSAGE "Pass 1. Scanning modules hierarchy."
+MESSAGE "Module \$root found in current working library."
+BEGINPROGRESS Compiling...
+UPDATEPROGRESS 35
+MESSAGE "Module PLL_Sys found in file C:/user/DreamTangle/DreamTangle_HDL/Lib/PLL_Sys.v."
+MESSAGE "Module USB_FIFO found in file C:/user/DreamTangle/DreamTangle_HDL/Lib/USB_FIFO.v."
+MESSAGE "Module Video found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Video.v."
+MESSAGE "Module USB found in current working library."
+MESSAGE "Module POR_Dly found in current working library."
+MESSAGE "Module Debounce found in current working library."
+MESSAGE "Module SSHLEDMDCtrl found in current working library."
+MESSAGE "Module Sdram_Control_4Port found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Sdram_Control_4Port.v."
+MESSAGE "Module Reset_Delay found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Reset_Delay.v."
+MESSAGE "Module TD_Detect found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/TD_Detect.v."
+MESSAGE "Module YUV422_to_444 found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/YUV422_to_444.v."
+MESSAGE "Module DIV found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/DIV.v."
+MESSAGE "Module Line_Buffer found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Line_Buffer.v."
+MESSAGE "Module I2C_AV_Config found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/I2C_AV_Config.v."
+MESSAGE "Module ITU_656_Decoder found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/ITU_656_Decoder.v."
+MESSAGE "Module VGA_Ctrl found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/VGA_Ctrl.v."
+MESSAGE "Module YCbCr2RGB found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/YCbCr2RGB.v."
+MESSAGE "Module scfifo found in library ovi_lpm."
+MESSAGE "Module altpll found in library ovi_lpm."
+MESSAGE "Module I2C_Controller found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/I2C_Controller.v."
+MESSAGE "Module MAC_3 found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/MAC_3.v."
+MESSAGE "Module control_interface found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/control_interface.v."
+MESSAGE "Module sdr_data_path found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/sdr_data_path.v."
+MESSAGE "Module Sdram_WR_FIFO found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Sdram_WR_FIFO.v."
+MESSAGE "Module Sdram_RD_FIFO found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Sdram_RD_FIFO.v."
+MESSAGE "Module command found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/command.v."
+MESSAGE "Module Sdram_PLL found in file C:/user/DreamTangle/DreamTangle_HDL/Source/Video/Sdram_PLL.v."
+MESSAGE "Module altshift_taps found in library ovi_lpm."
+MESSAGE "Module lpm_divide found in library ovi_lpm."
+MESSAGE "Module altmult_add found in library ovi_lpm."
+MESSAGE "Module dcfifo found in library ovi_lpm."
+MESSAGE "Pass 2. Processing instantiations."
+UPDATEPROGRESS 37
+UPDATEPROGRESS 39
+UPDATEPROGRESS 41
+UPDATEPROGRESS 43
+UPDATEPROGRESS 45
+WARNING VCP2597 "Some unconnected ports remain at instance: Video0. The module Video has 29 port(s)." "c:/user/DreamTangle/DreamTangle_HDL/source/dreamtangle_hdl.v" 162 1
+MESSAGE "Pass 3. Processing behavioral statements."
+UPDATEPROGRESS 50
+UPDATEPROGRESS 55
+UPDATEPROGRESS 60
+UPDATEPROGRESS 65
+UPDATEPROGRESS 70
+UPDATEPROGRESS 75
+UPDATEPROGRESS 80
+MESSAGE "ELB/DAG code generating."
+MESSAGE "Module \$root found in current working library."
+UPDATEPROGRESS 81
+UPDATEPROGRESS 82
+UPDATEPROGRESS 83
+UPDATEPROGRESS 84
+UPDATEPROGRESS 85
+UPDATEPROGRESS 86
+UPDATEPROGRESS 87
+UPDATEPROGRESS 88
+UPDATEPROGRESS 89
+UPDATEPROGRESS 90
+UPDATEPROGRESS 91
+UPDATEPROGRESS 92
+UPDATEPROGRESS 93
+UPDATEPROGRESS 94
+UPDATEPROGRESS 95
+UPDATEPROGRESS 96
+UPDATEPROGRESS 97
+UPDATEPROGRESS 98
+UPDATEPROGRESS 99
+MESSAGE "$root top modules: tbDreamTangle_HDL MemCtrl."
+ENDPROGRESS Compiling...
+SUCCESS "Compile success 0 Errors 1 Warnings  Analysis time : 1[s]."
